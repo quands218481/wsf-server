@@ -20,7 +20,7 @@ export class Item extends Document {
 
   @Prop({
   })
-  owner: string;
+  walletId: string;
 
   @Prop({
   })
