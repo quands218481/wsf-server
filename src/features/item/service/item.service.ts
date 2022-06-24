@@ -32,11 +32,13 @@ export class ItemService {
         return item;
     }
     encryptString(secretId: string): number {
-        const bytes = AES.decrypt(secretId, 'thehuman');
-        return Number(bytes.toString(enc.Utf8));
+        const dataString = secretId.toString().replaceAll('xMl3Jk', '+').replaceAll('Por21Ld', '/').replaceAll('Ml32', '=');
+        const bytes = AES.decrypt(dataString, 'thehuman');
+        return Number(JSON.parse(bytes.toString(enc.Utf8)));
     }
     encryptObject(secretId: string): Array<number> {
-        const bytes = AES.decrypt(secretId, 'thehuman');
+        const dataString = secretId.toString().replaceAll('xMl3Jk', '+').replaceAll('Por21Ld', '/').replaceAll('Ml32', '=');
+        const bytes = AES.decrypt(dataString, 'thehuman');
         return JSON.parse(bytes.toString(enc.Utf8));
     }
 }
