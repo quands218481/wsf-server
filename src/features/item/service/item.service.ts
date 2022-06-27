@@ -27,7 +27,7 @@ export class ItemService {
             return { message: 'The wallet does not exist' };
     } else {
             const res = await set_whitelist(walletId);
-            const data = res || res.data
+            const data = res.data || res;
             return { message: 'Update successful!!', data};
         };
     }
