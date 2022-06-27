@@ -34,7 +34,6 @@ export function set_whitelist(
     )
 
     contract.setNFTWhitelist(walletId).then((transferResult: any) => {
-        console.log(':: ~ transferResult', transferResult)
         return { message: transferResult };
 
     }).catch((err: any) => {
