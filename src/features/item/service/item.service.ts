@@ -21,6 +21,11 @@ export class ItemService {
         if (!res.nModified)  return { message: 'Update failed!! The wallet does not exist '};
         return { message: 'Update succesful!!'};
     }
+    async checkWalletId(walletId: string) {
+        const item = await this.itemModel.findOne({walletId});
+        if (!item) return false
+        return true;
+    }
     async updateWhiteList(walletId: string) {
         const item = await this.itemModel.findOne({walletId});
         if (!item) {

@@ -14,6 +14,10 @@ export class ItemController {
     updateWhiteList(@Param('walletId') walletId: string) {
         return this.itemService.updateWhiteList(walletId);
     }
+    @Get(':walletId')
+    checkWalletId(@Param('walletId') walletId: string) {
+        return this.itemService.checkWalletId(walletId);
+    }
     @Put(':walletId')
     updateTokenId(@Param('walletId') walletId: string, @Body('tokenId') tokenId: number) {
         return this.itemService.updateTokenId(walletId, tokenId);
