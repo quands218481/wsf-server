@@ -23,7 +23,7 @@ export class AddItemDto {
 
   @IsNotEmpty()
   @IsString()
-  owner: string;
+  walletId: string;
 
   @IsNotEmpty()
   @IsString()

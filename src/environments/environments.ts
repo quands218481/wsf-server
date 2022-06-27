@@ -23,6 +23,9 @@ export const environments = {
   mail_host: env.MAIL_HOST,
   email: env.EMAIL,
   email_password: env.EMAIL_PASSWORD,
+  provider: env.PROVIDER,
+  wsf_contract: env.WSF_CONTRACT,
+  private_key: env.PRIVATE_KEY,
   vapid: {
     publicKey: env.VAPID_PUBLIC_KEY,
     privateKey: env.VAPID_PRIVATE_KEY,
