@@ -20,11 +20,10 @@ let whitelist_abi = [
 let wsf_game_contract = environments.wsf_contract;
 let private_key = environments.private_key;
 
-export function set_whitelist(
+export async function set_whitelist(
     walletId: any
 ) {
-    console.log(':: ~ wsf_game_contract', wsf_game_contract)
-    console.log(':: ~ private_key', private_key)
+    try {
     let wallet = new ethers.Wallet(private_key)
     let walletSigner = wallet.connect(provider)
     let contract = new ethers.Contract(
@@ -33,11 +32,9 @@ export function set_whitelist(
         walletSigner
     )
 
-    contract.setNFTWhitelist(walletId).then((transferResult: any) => {
-        return { message: transferResult };
-
-    }).catch((err: any) => {
-        return { message: err };
-    });
+    return await contract.setNFTWhitelist(walletId);
+    } catch (error) {
+    return { message: error };
+    }
 
 }
