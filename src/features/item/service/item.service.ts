@@ -8,7 +8,6 @@ import { Item } from '../schema/item.schema';
 
 @Injectable()
 export class ItemService {
-    contract: any;
     constructor(
         @InjectModel(Item.name) private itemModel: Model<Item>,
     ) {}
