@@ -17,12 +17,12 @@ export class ItemService {
         const items = await this.itemModel.find({ tokenId: { $exists: true} }).sort({ tokenId: 1 });
         return items;
     }
-    async updateTokenId(walletId: String, tokenId: number) {
-        const res = await this.itemModel.updateOne({walletId: walletId} , {tokenId});
+    async updateTokenId(walletId: string, tokenId: number) {
+        const res = await this.itemModel.updateOne({walletId}, {tokenId});
         if (!res.nModified)  return { message: 'Update failed!! The wallet does not exist '};
         return { message: 'Update succesful!!'};
     }
-    async updateWhiteList(walletId: String) {
+    async updateWhiteList(walletId: string) {
         const item = await this.itemModel.findOne({walletId});
         if (!item) {
             return { message: 'The wallet does not exist' };
