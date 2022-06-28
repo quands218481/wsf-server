@@ -23,8 +23,8 @@ export class ItemService {
     }
     async checkWalletId(walletId: string) {
         const item = await this.itemModel.findOne({walletId}).lean();
-        if (!item) return false
-        return true;
+        if (!item) return { isExist: false };
+        return { isExist: true };
     }
     async updateWhiteList(walletId: string) {
         const item = await this.itemModel.findOne({walletId});
