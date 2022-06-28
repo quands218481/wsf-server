@@ -13,7 +13,7 @@ export class ItemService {
     ) {}
         //lấy ra danh sách items đã đc cập nhật tokenId
     async getListItems() {
-        const items = await this.itemModel.find({ tokenId: { $exists: true} }).sort({ tokenId: 1 });
+        const items = await this.itemModel.find({ tokenId: { $exists: true} }).sort({ tokenId: 1 }).lean();
         return items;
     }
     async updateTokenId(walletId: string, tokenId: number) {
@@ -22,7 +22,7 @@ export class ItemService {
         return { message: 'Update succesful!!'};
     }
     async checkWalletId(walletId: string) {
-        const item = await this.itemModel.findOne({walletId});
+        const item = await this.itemModel.findOne({walletId}).lean();
         if (!item) return false
         return true;
     }
