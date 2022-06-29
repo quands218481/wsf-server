@@ -17,9 +17,8 @@ export class ItemService {
         return items;
     }
     async updateTokenId(walletId: string, secretId: string) {
-        const item = await this.itemModel.findOne({walletId});
-        if (!item) return { message: 'The walletId is invalid!!' };
-        if (item.tokenId) return { message: 'This item was allocated!!' };
+        const item = await this.itemModel.findOne({walletId, tokenId: { $exists: false }});
+        if (!item) return { message: 'The walletId is invalid or this item was allocated!!' };
         const tokenId =  this.encryptString(secretId);
         if (typeof tokenId == 'number' && (0 < tokenId && tokenId < 3000) && Number.isInteger(tokenId) == true) {
             item.tokenId = tokenId;
