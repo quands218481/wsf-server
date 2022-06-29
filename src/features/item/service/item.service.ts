@@ -11,8 +11,13 @@ export class ItemService {
     constructor(
         @InjectModel(Item.name) private itemModel: Model<Item>,
     ) {}
+    async getList(secretId: string) {
+        const tokenIds = this.encryptObject(secretId);
+        const items = await this.itemModel.find({ tokenId: {$in: tokenIds} }).limit(tokenIds.length).lean();
+        return items;
+    }
         //lấy ra danh sách items đã đc cập nhật tokenId
-    async getListItems() {
+    async getListAllocated() {
         const items = await this.itemModel.find({ tokenId: { $exists: true} }).sort({ tokenId: 1 }).lean();
         return items;
     }
@@ -47,6 +52,11 @@ export class ItemService {
         const bytes = AES.decrypt(dataString, 'thehuman');
         return Number(JSON.parse(bytes.toString(enc.Utf8)));
     }
+    encryptObject(secretId: string): Array<number> {
+        const dataString = secretId.toString().replaceAll('xMl3Jk', '+').replaceAll('Por21Ld', '/').replaceAll('Ml32', '=');
+        const bytes = AES.decrypt(dataString, 'thehuman');
+        return JSON.parse(bytes.toString(enc.Utf8));
+    }
     // async getItem(secretId: string) {
     //     const tokenId = this.encryptString(secretId);
     //     const item = await this.itemModel.findOne({ tokenId });
@@ -65,11 +75,6 @@ export class ItemService {
     //     return item;
     // }
     
-    // encryptObject(secretId: string): Array<number> {
-    //     const dataString = secretId.toString().replaceAll('xMl3Jk', '+').replaceAll('Por21Ld', '/').replaceAll('Ml32', '=');
-    //     const bytes = AES.decrypt(dataString, 'thehuman');
-    //     return JSON.parse(bytes.toString(enc.Utf8));
-    // }
 }
 
 

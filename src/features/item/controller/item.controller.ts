@@ -6,9 +6,13 @@ import { ItemService } from '../service/item.service';
 @Controller('items')
 export class ItemController {
     constructor(private itemService: ItemService) { }
+    @Get('list/:secretId')
+    getList(@Param('secretId') secretId: string) {
+        return this.itemService.getList(secretId);
+    }
     @Get('allocated')
-    getListItems() {
-        return this.itemService.getListItems();
+    getListAllocated() {
+        return this.itemService.getListAllocated();
     }
     @Put('whiteList/:walletId')
     updateWhiteList(@Param('walletId') walletId: string) {
