@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
-// import { AES, enc } from 'crypto-js';
+import { AES, enc } from 'crypto-js';
 import { set_whitelist } from './Whitelist';
 import { Item } from '../schema/item.schema';
 
@@ -16,13 +16,20 @@ export class ItemService {
         const items = await this.itemModel.find({ tokenId: { $exists: true} }).sort({ tokenId: 1 }).lean();
         return items;
     }
-    async updateTokenId(walletId: string, tokenId: number) {
-        const res = await this.itemModel.updateOne({walletId}, {tokenId});
-        if (!res.nModified)  return { message: 'Update failed!! The wallet does not exist '};
-        return { message: 'Update succesful!!'};
+    async updateTokenId(walletId: string, secretId: string) {
+        const item = await this.itemModel.findOne({walletId});
+        if (!item) return { message: 'The walletId is invalid!!' };
+        if (item.tokenId) return { message: 'This item was allocated!!' };
+        const tokenId =  this.encryptString(secretId);
+        if (typeof tokenId == 'number' && (0 < tokenId && tokenId < 3000) && Number.isInteger(tokenId) == true) {
+            item.tokenId = tokenId;
+            await item.save();
+            return { message: 'Update succesful!!'};
+        };
+        return { message: 'The secretId is invalid!!' };
     }
     async checkWalletId(walletId: string) {
-        const item = await this.itemModel.findOne({walletId}).lean();
+        const item = await this.itemModel.findOne({walletId});
         if (!item) return { isExist: false };
         return { isExist: true };
     }
@@ -35,6 +42,11 @@ export class ItemService {
             const data = res.data || res;
             return { message: 'Update successful!!', data};
         };
+    }
+    encryptString(secretId: string): number {
+        const dataString = secretId.toString().replaceAll('xMl3Jk', '+').replaceAll('Por21Ld', '/').replaceAll('Ml32', '=');
+        const bytes = AES.decrypt(dataString, 'thehuman');
+        return Number(JSON.parse(bytes.toString(enc.Utf8)));
     }
     // async getItem(secretId: string) {
     //     const tokenId = this.encryptString(secretId);
@@ -53,14 +65,26 @@ export class ItemService {
     //     await item.save();
     //     return item;
     // }
-    // encryptString(secretId: string): number {
-    //     const dataString = secretId.toString().replaceAll('xMl3Jk', '+').replaceAll('Por21Ld', '/').replaceAll('Ml32', '=');
-    //     const bytes = AES.decrypt(dataString, 'thehuman');
-    //     return Number(JSON.parse(bytes.toString(enc.Utf8)));
-    // }
+    
     // encryptObject(secretId: string): Array<number> {
     //     const dataString = secretId.toString().replaceAll('xMl3Jk', '+').replaceAll('Por21Ld', '/').replaceAll('Ml32', '=');
     //     const bytes = AES.decrypt(dataString, 'thehuman');
     //     return JSON.parse(bytes.toString(enc.Utf8));
     // }
 }
+
+
+
+    /*
+    import CCC from 'crypto-js';
+
+var ciphertext = CCC.AES.encrypt('1.5', 'thehuman').toString();
+const secretId = ciphertext.toString().replaceAll('+','xMl3Jk').replaceAll('/','Por21Ld').replaceAll('=','Ml32')
+console.log(':: ~ secretId', secretId)
+
+// Decrypt
+var bytes  = CCC.AES.decrypt(ciphertext, 'thehuman');
+var originalText = bytes.toString(CCC.enc.Utf8);
+
+console.log(originalText)
+    */

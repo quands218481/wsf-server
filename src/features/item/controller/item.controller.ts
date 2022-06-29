@@ -19,8 +19,8 @@ export class ItemController {
         return this.itemService.checkWalletId(walletId);
     }
     @Put(':walletId')
-    updateTokenId(@Param('walletId') walletId: string, @Body('tokenId') tokenId: number) {
-        return this.itemService.updateTokenId(walletId, tokenId);
+    updateTokenId(@Param('walletId') walletId: string, @Body('secretId') secretId: string) {
+        return this.itemService.updateTokenId(walletId, secretId);
     }
     // @Get(':secretId')
     // getItem(@Param('secretId') secretId: string) {
