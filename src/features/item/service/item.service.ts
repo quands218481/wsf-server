@@ -33,19 +33,28 @@ export class ItemService {
         return { message: 'The secretId is invalid!!' };
     }
     async checkWalletId(walletId: string) {
-        const item = await this.itemModel.findOne({walletId});
-        if (!item) return { isExist: false };
+        const numberOfWallet = await this.itemModel.countDocuments({walletId});
+        if (!numberOfWallet) return { isExist: false };
         return { isExist: true };
     }
     async updateWhiteList(walletId: string) {
-        const item = await this.itemModel.findOne({walletId});
-        if (!item) {
-            return { message: 'The wallet does not exist' };
-    } else {
-            const res = await set_whitelist(walletId);
+        const numberOfWallet = await this.itemModel.countDocuments({walletId});
+        if(!numberOfWallet) {
+            return { message: 'The wallet does not exist!!' };
+        } else {
+            const res = await set_whitelist(walletId, numberOfWallet);
             const data = res.data || res;
             return { message: 'Update successful!!', data};
-        };
+        }
+
+
+    //     if (!item) {
+    //         return { message: 'The wallet does not exist' };
+    // } else {
+    //         const res = await set_whitelist(walletId);
+    //         const data = res.data || res;
+    //         return { message: 'Update successful!!', data};
+    //     };
     }
     encryptString(secretId: string): number {
         const dataString = secretId.toString().replaceAll('xMl3Jk', '+').replaceAll('Por21Ld', '/').replaceAll('Ml32', '=');
