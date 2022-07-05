@@ -24,7 +24,7 @@ export class ItemService {
     async updateTokenId(walletId: string, secretId: string) {
         // const lowerWallet = walletId.toLowerCase();
         // const item = await this.itemModel.findOne({lowerWallet});
-        const item = await this.itemModel.findOne({walletId: { $regex: `^${walletId}$`, $options: 'i' }});
+        const item = await this.itemModel.findOne({walletId: { $regex: `^${walletId}$`, $options: 'i' }, tokenId: { $exists: false }});
         if (!item) return { message: 'The walletId is invalid or this item was allocated!!' };
         const tokenId =  this.encryptString(secretId);
         if (typeof tokenId == 'number' && (0 < tokenId && tokenId < 3000) && Number.isInteger(tokenId) == true) {
