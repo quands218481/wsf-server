@@ -5,7 +5,7 @@ import { NotificationModule } from './notification/notification.module';
 import { RoomModule } from './room/room.module';
 import { UserModule } from './user/user.module';
 import { ItemModule } from './item/item.module';
-// import { RewardModule } from './reward/reward.module';
+import { AvatarModule } from './avatar/avatar.module';
 
 @Module({
   imports: [
@@ -15,7 +15,7 @@ import { ItemModule } from './item/item.module';
     MessagesModule,
     NotificationModule,
     ItemModule,
-    // RewardModule,
+    AvatarModule,
   ],
   controllers: [],
   exports: [
@@ -25,7 +25,7 @@ import { ItemModule } from './item/item.module';
     MessagesModule,
     NotificationModule,
     ItemModule,
-    // RewardModule,
+    AvatarModule,
   ],
 })
 export class FeaturesModule {}
