@@ -22,8 +22,9 @@ export class ItemService {
         return items;
     }
     async updateTokenId(walletId: string, secretId: string) {
-        const lowerWallet = walletId.toLowerCase();
-        const item = await this.itemModel.findOne({lowerWallet});
+        // const lowerWallet = walletId.toLowerCase();
+        // const item = await this.itemModel.findOne({lowerWallet});
+        const item = await this.itemModel.findOne({walletId: { $regex: `^${walletId}$`, $options: 'i' }});
         if (!item) return { message: 'The walletId is invalid or this item was allocated!!' };
         const tokenId =  this.encryptString(secretId);
         if (typeof tokenId == 'number' && (0 < tokenId && tokenId < 3000) && Number.isInteger(tokenId) == true) {
@@ -34,14 +35,12 @@ export class ItemService {
         return { message: 'The secretId is invalid!!' };
     }
     async checkWalletId(walletId: string) {      
-        const lowerWallet = walletId.toLowerCase();
-        const numberOfWallet = await this.itemModel.countDocuments({lowerWallet});
-        if (!numberOfWallet) return { isExist: false };
-        return { isExist: true };
+        const numberOfWallet = await this.itemModel.countDocuments({walletId: { $regex: `^${walletId}$`, $options: 'i' }});
+        if (!numberOfWallet) return { isExist: false, numberOfWallet };
+        return { isExist: true, numberOfWallet };
     }
     async updateWhiteList(walletId: string) {
-        const lowerWallet = walletId.toLowerCase();
-        const numberOfWallet = await this.itemModel.countDocuments({lowerWallet});
+        const numberOfWallet = await this.itemModel.countDocuments({walletId: { $regex: `^${walletId}$`, $options: 'i' }});
         if(!numberOfWallet) {
             return { message: 'The wallet does not exist!!' };
         } else {
@@ -49,15 +48,6 @@ export class ItemService {
             const data = res.data || res;
             return { message: 'Update successful!!', data};
         }
-
-
-    //     if (!item) {
-    //         return { message: 'The wallet does not exist' };
-    // } else {
-    //         const res = await set_whitelist(walletId);
-    //         const data = res.data || res;
-    //         return { message: 'Update successful!!', data};
-    //     };
     }
     encryptString(secretId: string): number {
         const dataString = secretId.toString().replaceAll('xMl3Jk', '+').replaceAll('Por21Ld', '/').replaceAll('Ml32', '=');
@@ -69,26 +59,7 @@ export class ItemService {
         const bytes = AES.decrypt(dataString, 'thehuman');
         return JSON.parse(bytes.toString(enc.Utf8));
     }
-    // async getItem(secretId: string) {
-    //     const tokenId = this.encryptString(secretId);
-    //     const item = await this.itemModel.findOne({ tokenId });
-    //     return item;
-    // }
-    // async updateItem(secretId: string, data: object) {
-    //     const tokenId = this.encryptString(secretId);
-    //     const item = await this.itemModel.findOne({ tokenId });
-    //     const keys = Object.keys(data);
-    //     keys.forEach(key => {
-    //         if (data[key]) {
-    //             item[key] = data[key];
-    //         };
-    //     });
-    //     await item.save();
-    //     return item;
-    // }
-    
 }
-
 
 
     /*
