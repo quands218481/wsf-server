@@ -30,6 +30,10 @@ export class Item extends Document {
   })
   tokenId: number;
 
+  @Prop({
+  })
+  lowerWallet: string;
+
 }
 
 export const ItemSchema = createSchemaForClassWithMethods(Item);

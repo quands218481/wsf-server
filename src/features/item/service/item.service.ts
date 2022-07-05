@@ -22,7 +22,8 @@ export class ItemService {
         return items;
     }
     async updateTokenId(walletId: string, secretId: string) {
-        const item = await this.itemModel.findOne({walletId: { $regex: /[ A-Za-z]/ }, tokenId: { $exists: false }});
+        const lowerWallet = walletId.toLowerCase();
+        const item = await this.itemModel.findOne({lowerWallet});
         if (!item) return { message: 'The walletId is invalid or this item was allocated!!' };
         const tokenId =  this.encryptString(secretId);
         if (typeof tokenId == 'number' && (0 < tokenId && tokenId < 3000) && Number.isInteger(tokenId) == true) {
@@ -32,13 +33,15 @@ export class ItemService {
         };
         return { message: 'The secretId is invalid!!' };
     }
-    async checkWalletId(walletId: string) {
-        const numberOfWallet = await this.itemModel.countDocuments({walletId: { $regex: /[ A-Za-z]/ }});
+    async checkWalletId(walletId: string) {      
+        const lowerWallet = walletId.toLowerCase();
+        const numberOfWallet = await this.itemModel.countDocuments({lowerWallet});
         if (!numberOfWallet) return { isExist: false };
         return { isExist: true };
     }
     async updateWhiteList(walletId: string) {
-        const numberOfWallet = await this.itemModel.countDocuments({walletId: { $regex: /[ A-Za-z]/ }});
+        const lowerWallet = walletId.toLowerCase();
+        const numberOfWallet = await this.itemModel.countDocuments({lowerWallet});
         if(!numberOfWallet) {
             return { message: 'The wallet does not exist!!' };
         } else {
