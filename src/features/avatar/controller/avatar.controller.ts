@@ -1,7 +1,5 @@
 import { Controller, Get, Put, Body, Param } from '@nestjs/common';
 import { AvatarService } from '../service/avatar.service';
-// import { AddItemDto } from '../dto/addItem.dto';
-// import { FetchItemsDto } from '../dto/fetchItem.dto';
 
 @Controller('avatar')
 export class AvatarController {
