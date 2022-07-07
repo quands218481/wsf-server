@@ -56,7 +56,7 @@ export class ItemService {
     }
     encryptObject(secretId: string): Array<number> {
         const dataString = secretId.toString().replaceAll('xMl3Jk', '+').replaceAll('Por21Ld', '/').replaceAll('Ml32', '=');
-        const bytes = AES.decrypt(dataString, environments);
+        const bytes = AES.decrypt(dataString, environments.encrypt_password);
         return JSON.parse(bytes.toString(enc.Utf8));
     }
 }
