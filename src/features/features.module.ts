@@ -6,7 +6,7 @@ import { RoomModule } from './room/room.module';
 import { UserModule } from './user/user.module';
 import { ItemModule } from './item/item.module';
 import { AvatarModule } from './avatar/avatar.module';
-
+import { BakItemModule } from './item_bak/bakItem.module';
 @Module({
   imports: [
     AuthModule,
@@ -16,6 +16,7 @@ import { AvatarModule } from './avatar/avatar.module';
     NotificationModule,
     ItemModule,
     AvatarModule,
+    BakItemModule,
   ],
   controllers: [],
   exports: [
@@ -26,6 +27,7 @@ import { AvatarModule } from './avatar/avatar.module';
     NotificationModule,
     ItemModule,
     AvatarModule,
+    BakItemModule,
   ],
 })
 export class FeaturesModule {}
