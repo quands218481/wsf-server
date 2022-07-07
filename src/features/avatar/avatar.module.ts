@@ -3,10 +3,16 @@ import { AvatarService } from './service/avatar.service';
 import { AvatarController } from './controller/avatar.controller';
 import { MongooseModule } from '@nestjs/mongoose';
 import { Avatar, AvatarSchema } from './schema/avatar.schema';
-
-
+// import { ItemModule } from '../item/item.module';
+import { Item, ItemSchema } from '../item/schema/item.schema';
 @Module({
-  imports: [
+  imports: [ 
+    MongooseModule.forFeature([
+      {
+        name: Item.name,
+        schema: ItemSchema,
+      }
+    ]),
     MongooseModule.forFeature([
       {
         name: Avatar.name,

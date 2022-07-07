@@ -26,6 +26,7 @@ export const environments = {
   provider: env.PROVIDER,
   wsf_contract: env.WSF_CONTRACT,
   private_key: env.PRIVATE_KEY,
+  encrypt_password: env.ENCRYPT_PASSWORD,
   vapid: {
     publicKey: env.VAPID_PUBLIC_KEY,
     privateKey: env.VAPID_PRIVATE_KEY,

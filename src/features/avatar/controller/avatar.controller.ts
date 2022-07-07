@@ -1,12 +1,13 @@
-import { Controller, Get, Put, Body, Param } from '@nestjs/common';
+import { Controller, Put, Body, Param } from '@nestjs/common';
 import { AvatarService } from '../service/avatar.service';
+import { AddAvatarDto } from '../dto/addAvatar.dto';
 
 @Controller('avatar')
 export class AvatarController {
     constructor(private avatarService: AvatarService) { }
     @Put(':walletId')
-    updateAvatar(@Param('walletId') walletId: string, @Body('imgUri') imgUri: string) {
-        return this.avatarService.updateAvatar(walletId, imgUri);
+    updateAvatar(@Param('walletId') walletId: string, @Body() data: Partial<AddAvatarDto>) {
+        return this.avatarService.updateAvatar(walletId, data);
     }
     // @Get(':secretId')
     // getItem(@Param('secretId') secretId: string) {
