@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
 import { Model } from 'mongoose';
 import { AES, enc } from 'crypto-js';
-import { set_whitelist } from './Whitelist';
+// import { set_whitelist } from './Whitelist';
 import { Item } from '../schema/item.schema';
 import {environments} from '../../../environments/environments';
 
