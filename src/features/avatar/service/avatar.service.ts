@@ -15,14 +15,10 @@ export class AvatarService {
     ) { }
 
     async getAvatar(secretId: string) {
-        try {
-            const walletId = this.encryptWallet(secretId);
-            const avatar = await this.avatarModel.findOne({ walletId: { $regex: `^${walletId}$`, $options: 'i' } });
-            if (!avatar) return { message: 'This wallet does not exist!!' };
-            return avatar;
-        } catch (error) {
-            return error
-        }
+        const walletId = this.encryptWallet(secretId);
+        const avatar = await this.avatarModel.findOne({ walletId: { $regex: `^${walletId}$`, $options: 'i' } });
+        if (!avatar) return { message: 'This wallet does not exist!!' };
+        return avatar;
     }
     async updateAvatar(secretId: string, data: any) {
         const { imgUri } = data;
@@ -42,7 +38,7 @@ export class AvatarService {
     encryptWallet(secretId: string): string {
         const dataString = secretId.toString().replaceAll('xMl3Jk', '+').replaceAll('Por21Ld', '/').replaceAll('Ml32', '=');
         const bytes = AES.decrypt(dataString, environments.encrypt_password);
-        const walletId = bytes.toString(enc.Utf8);
+        const walletId = bytes.toString(enc.Utf8);  
         return walletId;
     }
     encryptString(secretId: string) {
