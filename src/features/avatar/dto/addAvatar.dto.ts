@@ -9,10 +9,6 @@ export class AddAvatarDto {
 
   @IsNotEmpty()
   @IsString()
-  secretId: string;
-
-  @IsNotEmpty()
-  @IsString()
   imgUri: string;
 
 }
