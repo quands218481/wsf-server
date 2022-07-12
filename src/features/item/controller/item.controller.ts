@@ -14,18 +14,18 @@ export class ItemController {
     getListAllocated() {
         return this.itemService.getListAllocated();
     }
-    @Put('whiteList/:walletId')
-    updateWhiteList(@Param('walletId') walletId: string) {
-        return this.itemService.updateWhiteList(walletId);
-    }
+    // @Put('whiteList/:walletId')
+    // updateWhiteList(@Param('walletId') walletId: string) {
+    //     return this.itemService.updateWhiteList(walletId);
+    // }
     @Get(':walletId')
     checkWalletId(@Param('walletId') walletId: string) {
         return this.itemService.checkWalletId(walletId);
     }
-    @Put(':walletId')
-    updateTokenId(@Param('walletId') walletId: string, @Body('secretId') secretId: string) {
-        return this.itemService.updateTokenId(walletId, secretId);
-    }
+    // @Put(':walletId')
+    // updateTokenId(@Param('walletId') walletId: string, @Body('secretId') secretId: string) {
+    //     return this.itemService.updateTokenId(walletId, secretId);
+    // }
     // @Get(':secretId')
     // getItem(@Param('secretId') secretId: string) {
     //     return this.itemService.getItem(secretId);
